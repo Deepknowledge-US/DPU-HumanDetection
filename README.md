@@ -1,6 +1,6 @@
 # DPU-HumanDetection
 
-In this project we are using a BlueField DPU to detect people in a video file or a streaming. This is our first approach to use BlueField Cards as a Network Layer prefilter to free the host of some heavy tasks.
+In this project we are using a BlueField DPU to detect people in a video file or stream. This is our first approach to using BlueField cards as a network layer prefilter to relieve the server of some heavy tasks. We are using grpc for communication between client and server. 
 The whole project is written in Python.
 
 Installation instructions:
@@ -12,7 +12,7 @@ Installation instructions:
         grpc
         logging
 
-    You only have to place the correct files in client and server machines:
+    You only have to place the correct files in client (DPU in our case) and server machines:
     
     * Client needs:
         - human_detection_filter.py (You must set the server IP. Also check the route to the 'grpc_files' folder)
