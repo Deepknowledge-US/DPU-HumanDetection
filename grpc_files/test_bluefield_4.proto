@@ -1,0 +1,44 @@
+syntax = "proto3";
+
+option java_multiple_files = true;
+option java_package = "io.grpc.examples.test_bluefield";
+option java_outer_classname = "TestBluefieldProto";
+option objc_class_prefix = "TB";
+
+package test_bluefield;
+
+service Detection {
+  rpc SendFrame (Rectangles) returns (Empty) {}
+}
+
+message Rectangle {
+  int32 r1 = 1;
+  int32 r2 = 2;
+  int32 r3 = 3;
+  int32 r4 = 4;
+}
+
+message Rectangles {
+  Frame frame = 1;
+  int32 num_frame = 2;
+  string time = 3;
+  repeated Rectangle detections = 4;
+}
+
+message Frame {
+  repeated Line lines = 1;
+}
+
+message Line {
+  repeated Pixel pixels = 1;
+}
+
+message Pixel {
+  int32 r = 1;
+  int32 g = 2;
+  int32 b = 3;
+}
+ 
+message Empty {
+  int32 response = 1;
+}
