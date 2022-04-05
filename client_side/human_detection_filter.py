@@ -16,7 +16,7 @@ import cv2 as cv
 import numpy as np
 
 # Server IP
-IP = '94.188.142.138:50051'
+IP = 'SERVER_IP:50051'
 FRAME = 0
 
 # CAUTION!! The function needs a list of Rectangle type objects as parameter.

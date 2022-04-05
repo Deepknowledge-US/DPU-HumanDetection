@@ -15,7 +15,7 @@ Installation instructions:
     You only have to place the correct files in client and server machines:
     
     * Client needs:
-        - human_detection_filter.py (Probably you have to change the route to the 'grpc_files' folder)
+        - human_detection_filter.py (You must set the server IP. Also check the route to the 'grpc_files' folder)
         - grpc_files folder
         - multimedia folder
     * Server needs:
