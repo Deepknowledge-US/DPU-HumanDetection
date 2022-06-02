@@ -6,8 +6,8 @@ from datetime import datetime
 import sys
 sys.path.append('/home/ubuntu/human_detection/multi_thread/grpc_files')
 
-import test_bluefield_4_pb2 as pb2
-import test_bluefield_4_pb2_grpc as pb2_grpc
+import grpc_files.test_bluefield_4_pb2 as pb2
+import grpc_files.test_bluefield_4_pb2_grpc as pb2_grpc
 
 import pafy
 import grpc
@@ -31,7 +31,8 @@ def send_to_cpu(current_frame, n_frame, process_time, rectangles):
         from_server = stub.SendFrame(pb2.Rectangles(frame=current_frame , num_frame=n_frame, time = process_time, detections=rectangles))
         return from_server
 
-url = "https://www.youtube.com/watch?v=AdUw5RdyZxI"
+url  = "https://www.youtube.com/watch?v=XwXKJHgRM50"
+#url = "https://www.youtube.com/watch?v=AdUw5RdyZxI"
 #url = "https://www.abbeyroad.com/6f0394df-f3fc-4896-a2b7-18904518c544"
 
 video = pafy.new(url)

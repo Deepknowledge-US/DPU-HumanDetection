@@ -38,7 +38,7 @@ message Pixel {
   int32 g = 2;
   int32 b = 3;
 }
- 
+
 message Empty {
   int32 response = 1;
 }

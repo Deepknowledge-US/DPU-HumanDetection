@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16test_bluefield_4.proto\x12\x0etest_bluefield\";\n\tRectangle\x12\n\n\x02r1\x18\x01 \x01(\x05\x12\n\n\x02r2\x18\x02 \x01(\x0>
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x16test_bluefield_4.proto\x12\x0etest_bluefield\";\n\tRectangle\x12\n\n\x02r1\x18\x01 \x01(\x05\x12\n\n\x02r2\x18\x02 \x01(\x05\x12\n\n\x02r3\x18\x03 \x01(\x05\x12\n\n\x02r4\x18\x04 \x01(\x05\"\x82\x01\n\nRectangles\x12$\n\x05\x66rame\x18\x01 \x01(\x0b\x32\x15.test_bluefield.Frame\x12\x11\n\tnum_frame\x18\x02 \x01(\x05\x12\x0c\n\x04time\x18\x03 \x01(\t\x12-\n\ndetections\x18\x04 \x03(\x0b\x32\x19.test_bluefield.Rectangle\",\n\x05\x46rame\x12#\n\x05lines\x18\x01 \x03(\x0b\x32\x14.test_bluefield.Line\"-\n\x04Line\x12%\n\x06pixels\x18\x01 \x03(\x0b\x32\x15.test_bluefield.Pixel\"(\n\x05Pixel\x12\t\n\x01r\x18\x01 \x01(\x05\x12\t\n\x01g\x18\x02 \x01(\x05\x12\t\n\x01\x62\x18\x03 \x01(\x05\"\x19\n\x05\x45mpty\x12\x10\n\x08response\x18\x01 \x01(\x05\x32M\n\tDetection\x12@\n\tSendFrame\x12\x1a.test_bluefield.Rectangles\x1a\x15.test_bluefield.Empty\"\x00\x42<\n\x1fio.grpc.examples.test_bluefieldB\x12TestBluefieldProtoP\x01\xa2\x02\x02TBb\x06proto3')
 
 
 
@@ -44,7 +44,6 @@ Frame = _reflection.GeneratedProtocolMessageType('Frame', (_message.Message,), {
   # @@protoc_insertion_point(class_scope:test_bluefield.Frame)
   })
 _sym_db.RegisterMessage(Frame)
-
 
 Line = _reflection.GeneratedProtocolMessageType('Line', (_message.Message,), {
   'DESCRIPTOR' : _LINE,

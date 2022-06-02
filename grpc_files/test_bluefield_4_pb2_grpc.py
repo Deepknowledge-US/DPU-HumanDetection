@@ -2,7 +2,7 @@
 """Client and server classes corresponding to protobuf-defined services."""
 import grpc
 
-import test_bluefield_4_pb2 as test__bluefield__4__pb2
+from . import test_bluefield_4_pb2 as test__bluefield__4__pb2
 
 
 class DetectionStub(object):
@@ -63,4 +63,4 @@ class Detection(object):
             test__bluefield__4__pb2.Rectangles.SerializeToString,
             test__bluefield__4__pb2.Empty.FromString,
             options, channel_credentials,
-            insecure, call_credentials, compression, wait_for_ready, timeout, metadata
+            insecure, call_credentials, compression, wait_for_ready, timeout, metadata)

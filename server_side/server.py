@@ -1,8 +1,8 @@
 from concurrent import futures
 import grpc
 import logging
-import test_bluefield_4_pb2 as pb2
-import test_bluefield_4_pb2_grpc as pb2_grpc
+import grpc_files.test_bluefield_4_pb2 as pb2
+import grpc_files.test_bluefield_4_pb2_grpc as pb2_grpc
 
 class Detection(pb2_grpc.DetectionServicer):
     def SendFrame(self, request, context):
