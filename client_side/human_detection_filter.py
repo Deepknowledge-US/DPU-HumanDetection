@@ -4,7 +4,7 @@ from collections import deque
 from datetime import datetime
 
 import sys
-sys.path.append('/home/ubuntu/human_detection/multi_thread/grpc_files')
+sys.path.append('ADD PATH TO GRPC_FILES FOLDER HERE')
 
 import grpc_files.test_bluefield_4_pb2 as pb2
 import grpc_files.test_bluefield_4_pb2_grpc as pb2_grpc
@@ -15,8 +15,9 @@ import logging
 import cv2 as cv
 import numpy as np
 
-# Server IP
-IP = 'SERVER_IP:50051'
+# CAUTION! You must set the server IP. By default we are using port 50051.
+# Check the port in server side if you change this value.
+IP = 'SERVER_IP:50051' 
 FRAME = 0
 
 # CAUTION!! The function needs a list of Rectangle type objects as parameter.
@@ -30,13 +31,6 @@ def send_to_cpu(current_frame, n_frame, process_time, rectangles):
         stub = pb2_grpc.DetectionStub(channel)
         from_server = stub.SendFrame(pb2.Rectangles(frame=current_frame , num_frame=n_frame, time = process_time, detections=rectangles))
         return from_server
-
-url  = "https://www.youtube.com/watch?v=XwXKJHgRM50"
-#url = "https://www.youtube.com/watch?v=AdUw5RdyZxI"
-#url = "https://www.abbeyroad.com/6f0394df-f3fc-4896-a2b7-18904518c544"
-
-video = pafy.new(url)
-best = video.getbest(preftype="mp4")
 
 def clock(time=None):
     if not time:
@@ -59,26 +53,29 @@ if __name__ == '__main__':
     except:
         cap = cv.VideoCapture(best.url)
 
-    # OPencv HAAR algorithm for human recognition
-    haar= cv.CascadeClassifier(cv.data.haarcascades + 'haarcascade_fullbody.xml')
+    # # OPencv HAAR algorithm for human recognition
+    # First approach, human detection.
+    # haar= cv.CascadeClassifier(cv.data.haarcascades + 'haarcascade_fullbody.xml')
 
-    def process_frame(num_frame, frame):
+    def frame_diff(num_frame, frame0, frame):
         t0 = clock(T0)
-        gray = cv.cvtColor(frame, cv.COLOR_RGB2GRAY)
-        boxes = haar.detectMultiScale(gray, 1.1, 1)
+        gray0 = frame0
+        gray  = frame
 
-        # 'boxes' is an Array of Rectangle type objects (Rectangle class is defined in .proto file)
-        boxes = np.array( [pb2.Rectangle(r1=x, r2=y, r3=x+w, r4=y+h) for (x,y,w,h) in boxes] )
+        differences = np.abs(gray0-gray)
         t = clock() - t0
 
-        if boxes.any():
+        threshold = 10
+        if np.count_nonzero(differences) > threshold :
             # CAUTION!! Send a whole frame using grpc is a very expensive operation!
             #current_frame = pb2.Frame(  lines=[pb2.Line( pixels=[pb2.Pixel(r=l1, g=l2, b=l3 ) for (l1,l2,l3) in line] ) for line in frame]  ) 
+
             current_frame = pb2.Frame(lines=[])
-            from_server = send_to_cpu(current_frame, num_frame, str(t), boxes)
+            from_server = send_to_cpu(current_frame, num_frame, str(t), [pb2.Rectangle(r1=0, r2=0, r3=0, r4=0)] )
             print(from_server.response)
         else:
-            print('No person detected')
+            print('DIFF: ' , differences)
+
 
     threadn = cv.getNumberOfCPUs()
     pool = ThreadPool(processes = threadn)
@@ -93,14 +90,15 @@ if __name__ == '__main__':
         if len(pending) < threadn:
             ret, frame = cap.read()
             if frame is None:
+                print("TOTAL TIME: ", datetime.now()-T0 )
                 break
 
             FRAME += 1
-            # Only odd frames are processed
-            if FRAME % 2 == 0:
-                continue
+            # Only even frames are processed
+            if FRAME % 2 != 0:
+                frame0 = frame.copy() 
             else:
-                pending.append( pool.apply_async(process_frame, (FRAME, frame.copy(), )) )
+                pending.append( pool.apply_async(frame_diff, (FRAME, frame0, frame.copy(), )) )
         ch = cv.waitKey(1)
         if ch == ord(' '):
             threaded_mode = not threaded_mode
